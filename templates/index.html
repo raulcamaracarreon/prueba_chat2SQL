@@ -1,0 +1,62 @@
+<script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Cargar modo claro/oscuro desde localStorage
+        const savedMode = localStorage.getItem('themeMode');
+        if (savedMode) {
+          document.body.className = savedMode;
+        } else {
+          document.body.className = 'dark-mode';
+        }
+
+        // Crear botón para toggle
+        const toggleBtn = document.createElement('button');
+        toggleBtn.innerText = 'Modo Claro/Oscuro';
+        toggleBtn.style.marginBottom = '16px';
+        toggleBtn.onclick = () => {
+          if (document.body.className === 'dark-mode') {
+            document.body.className = 'light-mode';
+            localStorage.setItem('themeMode', 'light-mode');
+          } else {
+            document.body.className = 'dark-mode';
+            localStorage.setItem('themeMode', 'dark-mode');
+          }
+        };
+        document.querySelector('.container').insertBefore(toggleBtn, document.querySelector('.container').firstChild);
+
+        // Función para aplicar colores personalizados
+        const applyColors = () => {
+          const bgColor = document.getElementById('bgColorPicker').value;
+          const textColor = document.getElementById('textColorPicker').value;
+          const primaryColor = document.getElementById('primaryColorPicker').value;
+
+          localStorage.setItem('bgColor', bgColor);
+          localStorage.setItem('textColor', textColor);
+          localStorage.setItem('primaryColor', primaryColor);
+
+          document.documentElement.style.setProperty('--bg-color', bgColor);
+          document.documentElement.style.setProperty('--text-color', textColor);
+          document.documentElement.style.setProperty('--primary-color', primaryColor);
+        };
+
+        // Cargar colores guardados
+        const savedBg = localStorage.getItem('bgColor');
+        const savedText = localStorage.getItem('textColor');
+        const savedPrimary = localStorage.getItem('primaryColor');
+
+        if (savedBg) {
+          document.getElementById('bgColorPicker').value = savedBg;
+          document.documentElement.style.setProperty('--bg-color', savedBg);
+        }
+        if (savedText) {
+          document.getElementById('textColorPicker').value = savedText;
+          document.documentElement.style.setProperty('--text-color', savedText);
+        }
+        if (savedPrimary) {
+          document.getElementById('primaryColorPicker').value = savedPrimary;
+          document.documentElement.style.setProperty('--primary-color', savedPrimary);
+        }
+
+        // Evento para aplicar colores
+        document.getElementById('applyColors').onclick = applyColors;
+      });
+    </script>
